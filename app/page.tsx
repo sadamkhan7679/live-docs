@@ -7,6 +7,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import Header from "@/components/modules/Header";
 import AddDocumentBtn from "@/components/modules/AddDocumentBtn";
+import DeleteModal from "@/components/modules/DeleteModal";
 
 const Home = async () => {
   const clerkUser = await currentUser();
@@ -58,7 +59,7 @@ const Home = async () => {
                     </p>
                   </div>
                 </Link>
-                {/*<DeleteModal roomId={id} />*/}
+                <DeleteModal roomId={id} />
               </li>
             ))}
           </ul>

@@ -9,6 +9,7 @@ import Image from "next/image";
 import ActiveCollaborators from "@/components/modules/ActiveCollaborators";
 import { updateDocument } from "@/lib/actions/room.actions";
 import { Input } from "@/components/ui/input";
+import Loader from "@/components/ui/loader";
 
 type CollaborativeRoomProps = {
   roomId: string;
@@ -81,7 +82,7 @@ const CollaborativeRoom: React.FC<CollaborativeRoomProps> = ({
 
   return (
     <RoomProvider id={roomId}>
-      <ClientSideSuspense fallback={<div>Loading…</div>}>
+      <ClientSideSuspense fallback={<Loader />}>
         <div className="collaborative-room">
           <Header>
             <div
