@@ -1,26 +1,47 @@
 import React from "react";
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { Editor } from "@/components/modules/editor/Editor";
-import Header from "@/components/modules/Header";
+import CollaborativeRoom from "@/components/modules/CollaborativeRoom";
+import { SearchParamProps, User } from "@/types";
+import { getDocument } from "@/lib/actions/room.actions";
+import { getClerkUsers } from "@/lib/actions/user.actions";
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
-type DocumentPageProps = {};
+const DocumentPage: React.FC<SearchParamProps> = async ({ params: { id } }) => {
+  const clerkUser = await currentUser();
+  if (!clerkUser) redirect("/sign-in");
 
-const DocumentPage: React.FC<DocumentPageProps> = () => {
+  const room = await getDocument({
+    roomId: id,
+    userId: clerkUser.emailAddresses[0].emailAddress,
+  });
+
+  if (!room) redirect("/");
+
+  const userIds = Object.keys(room.usersAccesses);
+  const users = await getClerkUsers({ userIds });
+
+  const usersData = users.map((user: User) => ({
+    ...user,
+    userType: room.usersAccesses[user.email]?.includes("room:write")
+      ? "editor"
+      : "viewer",
+  }));
+
+  const currentUserType = room.usersAccesses[
+    clerkUser.emailAddresses[0].emailAddress
+  ]?.includes("room:write")
+    ? "editor"
+    : "viewer";
+
   return (
-    <div>
-      <Header className="text-white">
-        <div className="flex w-fit items-center justify-center gap-2">
-          <p className="document-title">Share</p>
-        </div>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </Header>
-      <Editor />
-    </div>
+    <main className="flex w-full flex-col items-center">
+      <CollaborativeRoom
+        roomId={id}
+        roomMetadata={room.metadata}
+        users={usersData}
+        currentUserType={currentUserType}
+      />
+    </main>
   );
 };
 
