@@ -1,13 +1,27 @@
 import React from "react";
-import {Editor} from "@/components/modules/editor/Editor";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { Editor } from "@/components/modules/editor/Editor";
+import Header from "@/components/modules/Header";
 
 type DocumentPageProps = {};
 
+const DocumentPage: React.FC<DocumentPageProps> = () => {
+  return (
+    <div>
+      <Header className="text-white">
+        <div className="flex w-fit items-center justify-center gap-2">
+          <p className="document-title">Document Title</p>
+        </div>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </Header>
+      <Editor />
+    </div>
+  );
+};
 
-const DocumentPage:React.FC<DocumentPageProps> = () => {
-	return (
-		<Editor />
-	)
-}
-
-export default DocumentPage
+export default DocumentPage;
