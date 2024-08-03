@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import Theme from "./plugins/Theme";
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import { HeadingNode } from "@lexical/rich-text";
@@ -9,11 +9,19 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import React from "react";
-import { RoomMetadata, User, UserType } from "@/types";
-import { liveblocksConfig } from "@liveblocks/react-lexical";
+import { UserType } from "@/types";
 import DeleteModal from "@/components/modules/DeleteModal";
-
+import Loader from "@/components/ui/loader";
+import { useThreads } from "@liveblocks/react/suspense";
+import {
+  FloatingComposer,
+  FloatingThreads,
+  liveblocksConfig,
+  LiveblocksPlugin,
+  useEditorStatus,
+} from "@liveblocks/react-lexical";
+import FloatingToolbarPlugin from "./plugins/FloatingToolbarPlugin";
+import Comments from "@/components/modules/Comments";
 // Catch any errors that occur during Lexical updates and log them
 // or throw them as needed. If you don't throw them, Lexical will
 // try to recover gracefully without losing user data.
@@ -28,6 +36,9 @@ type EditorProps = {
 };
 
 export const Editor: React.FC<EditorProps> = ({ roomId, currentUserType }) => {
+  const status = useEditorStatus();
+  const { threads } = useThreads();
+
   const initialConfig = liveblocksConfig({
     namespace: "Editor",
     nodes: [HeadingNode],
@@ -46,17 +57,29 @@ export const Editor: React.FC<EditorProps> = ({ roomId, currentUserType }) => {
           <ToolbarPlugin />
           {currentUserType === "editor" && <DeleteModal roomId={roomId} />}
         </div>
+        <div className="editor-wrapper flex flex-col items-center justify-start">
+          {status === "not-loaded" || status === "loading" ? (
+            <Loader />
+          ) : (
+            <div className="editor-inner min-h-[1100px] relative mb-5 h-fit w-full max-w-[800px] shadow-md lg:mb-10">
+              <RichTextPlugin
+                contentEditable={
+                  <ContentEditable className="editor-input h-full" />
+                }
+                placeholder={<Placeholder />}
+                ErrorBoundary={LexicalErrorBoundary}
+              />
+              {currentUserType === "editor" && <FloatingToolbarPlugin />}
+              <HistoryPlugin />
+              <AutoFocusPlugin />
+            </div>
+          )}
 
-        <div className="editor-inner h-[1100px]">
-          <RichTextPlugin
-            contentEditable={
-              <ContentEditable className="editor-input h-full" />
-            }
-            placeholder={<Placeholder />}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <HistoryPlugin />
-          <AutoFocusPlugin />
+          <LiveblocksPlugin>
+            <FloatingComposer className="w-[350px]" />
+            <FloatingThreads threads={threads} />
+            <Comments />
+          </LiveblocksPlugin>
         </div>
       </div>
     </LexicalComposer>
