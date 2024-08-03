@@ -10,7 +10,7 @@ const DocumentPage: React.FC<DocumentPageProps> = () => {
     <div>
       <Header className="text-white">
         <div className="flex w-fit items-center justify-center gap-2">
-          <p className="document-title">Document Title</p>
+          <p className="document-title">Share</p>
         </div>
         <SignedOut>
           <SignInButton />

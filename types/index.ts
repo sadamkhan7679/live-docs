@@ -8,27 +8,27 @@
 //
 // declare type RoomAccesses = Record<string, AccessType>;
 //
-// declare type UserType = "creator" | "editor" | "viewer";
-//
-// declare type RoomMetadata = {
-//     creatorId: string;
-//     email: string;
-//     title: string;
-// };
-//
-// declare type CreateDocumentParams = {
-//     userId: string;
-//     email: string;
-// };
-//
-// declare type User = {
-//     id: string;
-//     name: string;
-//     email: string;
-//     avatar: string;
-//     color: string;
-//     userType?: UserType;
-// };
+export type UserType = "creator" | "editor" | "viewer";
+
+export type RoomMetadata = {
+  creatorId: string;
+  email: string;
+  title: string;
+};
+
+export type CreateDocumentParams = {
+  userId: string;
+  email: string;
+};
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  color: string;
+  userType?: UserType;
+};
 //
 // declare type ShareDocumentParams = {
 //     roomId: string;

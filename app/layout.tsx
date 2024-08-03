@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import Provider from "@/app/Provider";
 
 export const metadata: Metadata = {
   title: "LiveDocs",
@@ -40,7 +41,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable,
           )}
         >
-          {children}
+          <Provider>{children}</Provider>
         </body>
       </html>
     </ClerkProvider>
