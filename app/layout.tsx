@@ -7,11 +7,9 @@ import { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import Provider from "@/app/Provider";
+import { meta } from "@/data/metaData";
 
-export const metadata: Metadata = {
-  title: "LiveDocs",
-  description: "Your go to place for all your documentation needs",
-};
+export const metadata: Metadata = meta;
 
 const fontSans = FontSans({
   subsets: ["latin"],
