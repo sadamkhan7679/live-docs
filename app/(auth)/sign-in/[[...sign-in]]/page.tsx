@@ -5,9 +5,9 @@ type SignInPageProps = {};
 
 const SignInPage: React.FC<SignInPageProps> = () => {
   return (
-    <div>
+    <main className="auth-page">
       <SignIn />
-    </div>
+    </main>
   );
 };
 
