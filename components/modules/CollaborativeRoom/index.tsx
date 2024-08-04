@@ -10,6 +10,7 @@ import ActiveCollaborators from "@/components/modules/ActiveCollaborators";
 import { updateDocument } from "@/lib/actions/room.actions";
 import { Input } from "@/components/ui/input";
 import Loader from "@/components/ui/loader";
+import ShareModal from "@/components/modules/ShareModel";
 
 type CollaborativeRoomProps = {
   roomId: string;
@@ -126,12 +127,12 @@ const CollaborativeRoom: React.FC<CollaborativeRoomProps> = ({
             <div className="flex w-full flex-1 justify-end gap-2 sm:gap-3">
               <ActiveCollaborators />
 
-              {/*<ShareModal*/}
-              {/*  roomId={roomId}*/}
-              {/*  collaborators={users}*/}
-              {/*  creatorId={roomMetadata.creatorId}*/}
-              {/*  currentUserType={currentUserType}*/}
-              {/*/>*/}
+              <ShareModal
+                roomId={roomId}
+                collaborators={users}
+                creatorId={roomMetadata.creatorId}
+                currentUserType={currentUserType}
+              />
 
               <SignedOut>
                 <SignInButton />
