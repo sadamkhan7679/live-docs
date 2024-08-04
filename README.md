@@ -82,7 +82,7 @@ LIVE DOCS is a next-generation platform for real-time document collaboration. Bu
 ![Notifications](public/assets/images/app/notifications.png)
 *Stay informed with real-time notifications about document activities.*
 
-|[Share Or Invite Collaborators](public/assets/images/app/share-document.png)
+![Share Or Invite Collaborators](public/assets/images/app/share-document.png)
 *Effortlessly share documents and invite collaborators to edit.*
 
 
